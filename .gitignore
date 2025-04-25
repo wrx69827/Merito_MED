@@ -13,6 +13,7 @@ node_modules/
 build/
 dist/
 
+
 # VSCode / systemowe
 .DS_Store
 .vscode/

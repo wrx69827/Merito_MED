@@ -8,7 +8,7 @@ class DoctorListView(generics.ListAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['city', 'specialty']
+    filterset_fields = ['city', 'speciality']
 
 
 class RegisterView(generics.CreateAPIView):

@@ -14,31 +14,40 @@ export default function LoginPage() {
         username,
         password,
       });
-      localStorage.setItem("token", res.data.access);
+
+      // ZAPISZ token do localStorage pod kluczem "access"
+      localStorage.setItem("access", res.data.access);
+      localStorage.setItem("refresh", res.data.refresh);
+
       setMessage("✅ Zalogowano!");
-      navigate("/appointments");
+      navigate("/book"); // lub inna strona po zalogowaniu
     } catch (err) {
-      setMessage("❌ Błąd logowania");
+      console.error("Błąd logowania:", err.response?.data || err);
+      setMessage("❌ Nieprawidłowe dane logowania");
     }
   };
 
   return (
     <div>
       <h2>🔐 Logowanie</h2>
+
       <input
         type="text"
         placeholder="Login"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
+
       <input
         type="password"
         placeholder="Hasło"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+
       <button onClick={handleLogin}>Zaloguj się</button>
-      <p>{message}</p>
+
+      {message && <p>{message}</p>}
     </div>
   );
 }

@@ -3,13 +3,18 @@ from .models import Appointment
 from datetime import timedelta
 
 class AppointmentSerializer(serializers.ModelSerializer):
-    doctor_name = serializers.CharField(source='doctor.full_name', read_only=True)
-    doctor_specialization = serializers.CharField(source='doctor.specialty', read_only=True)
+    doctor_name = serializers.CharField(source='doctor.name', read_only=True)
+    doctor_specialization = serializers.CharField(source='doctor.speciality', read_only=True)
+    
+
 
     class Meta:
         model = Appointment
         fields = ['id', 'date_time', 'doctor', 'doctor_name', 'doctor_specialization']
 
+    def get_doctor_fullname(self, obj):
+        return f"{obj.doctor.name} {obj.doctor.lastname}"
+    
 
     def validate(self, data):
         """Sprawdza, czy lekarz ma wolny termin z min. 40-minutowym odstępem"""

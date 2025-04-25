@@ -15,7 +15,8 @@ export default function BookAppointmentPage() {
 
   const bookAppointment = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access");
+
       await axios.post(
         "http://127.0.0.1:8000/appointments/appointments/",
         {
@@ -24,7 +25,7 @@ export default function BookAppointmentPage() {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // ← poprawka: dodane znaki ` przy Bearer
           },
         }
       );
@@ -38,11 +39,14 @@ export default function BookAppointmentPage() {
     <div>
       <h2>📅 Umów wizytę</h2>
 
-      <select onChange={(e) => setDoctorId(e.target.value)} value={doctorId}>
-        <option>Wybierz lekarza</option>
+      <select
+        onChange={(e) => setDoctorId(e.target.value)}
+        value={doctorId}
+      >
+        <option value="">Wybierz lekarza</option>
         {doctors.map((doc) => (
           <option key={doc.id} value={doc.id}>
-            {doc.name} {doc.lastname} – {doc.specialty}
+            {doc.name} {doc.lastname} – {doc.speciality}
           </option>
         ))}
       </select>

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'users',  # Moduł użytkowników
     'appointments',  # Moduł wizyt
     'corsheaders',
+    
 ]
 
 MIDDLEWARE = [
@@ -82,12 +85,28 @@ WSGI_APPLICATION = 'medapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+USE_AZURE_DB = os.getenv('USE_AZURE_DB') == '1'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',  # nazwa bazy danych
+        'USER': 'AdminMM',  # UWAGA: musi zawierać końcówkę serwera
+        'PASSWORD': 'MMpass123',
+        'HOST': 'meritomed.postgres.database.azure.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',  # wymagane przez Azure
+        }
     }
 }
+ 
+
+
 
 
 # Password validation
@@ -133,10 +152,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    ]
 }
 
 SIMPLE_JWT = {
