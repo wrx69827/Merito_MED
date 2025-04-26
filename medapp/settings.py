@@ -27,9 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(1lb4tiq)c_+=1*5ee97puvnl(5bw*r=^nh(31t8_)+-l=!+l_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', '0') == '1'
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['meritomed.azurewebsites.net', 'localhost', '127.0.0.1']
+
+
 
 
 # Application definition
@@ -105,7 +108,7 @@ DATABASES = {
     }
 }
  
-
+ 
 
 
 
@@ -168,3 +171,5 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
